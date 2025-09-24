@@ -4,6 +4,13 @@ export interface Item {
     description: string;
 }
 
+export interface ServerInfo {
+    name: string;
+    version: string;
+    description: string;
+    maxPlayers?: number;
+}
+
 export interface JsonRpcRequest {
   jsonrpc: "2.0";
   id: number;
@@ -41,6 +48,8 @@ export interface InitializeResult {
   serverInfo: {
     name: string;
     version: string;
+    description: string;
+    maxPlayers?: number;
   };
 }
 
