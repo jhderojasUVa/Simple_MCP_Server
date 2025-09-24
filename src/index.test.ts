@@ -52,7 +52,12 @@ describe("executeTool", () => {
   });
 
   it("should return a specific drink for getDrink", () => {
-    const drink = drinks[0];
+    const basicDrink = {
+      name: 'Americano',
+      price: 8,
+      description: "A coffee drink with a lot of water",
+    }
+    const drink = drinks[0] || basicDrink;
     const expected = { result: drink };
     expect(executeTool("getDrink", { name: drink.name })).toEqual(expected);
   });
