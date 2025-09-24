@@ -7,8 +7,8 @@ import {
   Tool,
   ExecuteParams,
 } from "./types";
-import { drinks } from "./data";
-import { tools } from "./tools";
+import { drinks } from "./data/data";
+import { tools } from "./tools/tools";
 
 const rl = readline.createInterface({
   input: stdin,

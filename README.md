@@ -8,7 +8,7 @@ It gives you the list of the drinks or you can ask to order one particular.
 
 This server is using STDIO by default.
 
-Start the server by building it and running using `npm run build` and `npm run start`.
+Start the server by building it and running using `npm run build` and `npm run start`. Or, in one shot, use `npm run start:build`
 
 Also you can start on dev mode with `npm dev`.
 
