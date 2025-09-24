@@ -97,6 +97,24 @@ function executeTool(
         } else {
           sendError(request.id, -32001, execution.error); // Use a specific error code for tool execution failure
         }
+      } else if (request.method === "tools/call") {
+        const params = request.params as ExecuteParams;
+
+        if (typeof params !== "object" || params === null || typeof params.name !== "string") {
+          sendError(request.id, -32602, "Invalid params: 'name' property is missing or not a string.");
+          continue;
+        }
+
+        const name = params.name;
+        const parameters = params.parameters ?? {};
+
+        const execution = executeTool(name, parameters);
+
+       if ("result" in execution) {
+          sendResponse(request.id, { result: execution.result });
+        } else {
+          sendError(request.id, -32001, execution.error); // Use a specific error code for tool execution failure
+        }
       }
     } catch (err) {
       console.error("Failed to process request:", err);
