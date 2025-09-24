@@ -49,6 +49,9 @@ function executeTool(
   switch (toolName) {
     case "getDrinkNames":
       return { result: drinks.map((d) => d.name) };
+    
+    case "getDrinkInformation":
+        return { result: drinks.map((d) => d) };
 
     case "getDrink": {
       if (isGetDrinkParams(params)) {

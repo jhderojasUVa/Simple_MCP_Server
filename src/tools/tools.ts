@@ -7,6 +7,11 @@ export const tools: Tool[] = [
     inputSchema: { type: "object", properties: {}, required: [] },
   },
   {
+    name: "getDrinkInformation",
+    description: "Get the drinks with all the information",
+    inputSchema: { type: "object", properties: {}, required: [] },
+  },
+  {
     name: "getDrink",
     description: "Get the drink by name",
     inputSchema: {
