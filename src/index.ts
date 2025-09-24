@@ -4,7 +4,6 @@ import {
   InitializeResult,
   JsonRpcRequest,
   JsonRpcResponse,
-  Tool,
   ExecuteParams,
 } from "./types";
 import { drinks } from "./data/data";
