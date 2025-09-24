@@ -70,50 +70,40 @@ function executeTool(
       const request: JsonRpcRequest = JSON.parse(line);
       if (request.jsonrpc !== "2.0") continue;
 
-      if (request.method === "initialize") {
-        const result: InitializeResult = {
-          protocolVersion: "2025-03-26",
-          capabilities: { tools: { listChanged: true } },
-          serverInfo,
-        };
-        sendResponse(request.id, result);
-      } else if (request.method === "tools/list") {
-        sendResponse(request.id, { tools });
-      } else if (request.method === "tools/execute") {
-        const params = request.params as ExecuteParams;
-        // Type-safe check for execution parameters, ensuring params is a valid object with a 'name' property.
-        if (typeof params !== "object" || params === null || typeof params.name !== "string") {
-          sendError(request.id, -32602, "Invalid params: 'name' property is missing or not a string.");
-          continue;
+      switch (request.method) {
+        case "initialize": {
+          const result: InitializeResult = {
+            protocolVersion: "2025-03-26",
+            capabilities: { tools: { listChanged: true } },
+            serverInfo,
+          };
+          sendResponse(request.id, result);
+          break;
         }
 
-        const toolName = params.name;
-        const toolParams = params.parameters ?? {};
-
-        const execution = executeTool(toolName, toolParams);
-
-        if ("result" in execution) {
-          sendResponse(request.id, { result: execution.result });
-        } else {
-          sendError(request.id, -32001, execution.error); // Use a specific error code for tool execution failure
-        }
-      } else if (request.method === "tools/call") {
-        const params = request.params as ExecuteParams;
-
-        if (typeof params !== "object" || params === null || typeof params.name !== "string") {
-          sendError(request.id, -32602, "Invalid params: 'name' property is missing or not a string.");
-          continue;
+        case "tools/list": {
+          sendResponse(request.id, { tools });
+          break;
         }
 
-        const name = params.name;
-        const parameters = params.parameters ?? {};
+        case "tools/execute":
+        case "tools/call": { // Fall-through to handle both legacy and current method names
+          const params = request.params as ExecuteParams;
+          if (typeof params !== "object" || params === null || typeof params.name !== "string") {
+            sendError(request.id, -32602, "Invalid params: 'name' property is missing or not a string.");
+            continue;
+          }
 
-        const execution = executeTool(name, parameters);
+          const toolName = params.name;
+          const toolParams = params.parameters ?? {};
+          const execution = executeTool(toolName, toolParams);
 
-       if ("result" in execution) {
-          sendResponse(request.id, { result: execution.result });
-        } else {
-          sendError(request.id, -32001, execution.error); // Use a specific error code for tool execution failure
+          if ("result" in execution) {
+            sendResponse(request.id, { result: execution.result });
+          } else {
+            sendError(request.id, -32001, execution.error);
+          }
+          break;
         }
       }
     } catch (err) {
