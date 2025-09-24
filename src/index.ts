@@ -5,56 +5,15 @@ import {
   JsonRpcRequest,
   JsonRpcResponse,
   Tool,
-  Item,
   ExecuteParams,
 } from "./types";
+import { drinks } from "./data";
+import { tools } from "./tools";
 
 const rl = readline.createInterface({
   input: stdin,
   output: stdout,
 });
-
-const drinks: Item[] = [
-  {
-    name: "Latte",
-    price: 5,
-    description: "A coffee drink with a lot of milk",
-  },
-  {
-    name: "Mocha",
-    price: 6,
-    description: "A coffee drink with a lot of chocolate",
-  },
-  {
-    name: "Cappuccino",
-    price: 7,
-    description: "A coffee drink with a lot of foam",
-  },
-  {
-    name: "Americano",
-    price: 8,
-    description: "A coffee drink with a lot of water",
-  },
-];
-
-const tools: Tool[] = [
-  {
-    name: "getDrinkNames",
-    description: "Get the name of the drinks",
-    inputSchema: { type: "object", properties: {}, required: [] },
-  },
-  {
-    name: "getDrink",
-    description: "Get the drink by name",
-    inputSchema: {
-      type: "object",
-      properties: {
-        name: { type: "string" },
-      },
-      required: ["name"],
-    },
-  },
-];
 
 const serverInfo = {
   name: "Example MCP Coffee Server",
