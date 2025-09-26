@@ -55,5 +55,5 @@ export interface InitializeResult {
 
 export interface ExecuteParams {
   name: string;
-  parameters?: Record<string, unknown>;
+  arguments?: Record<string, unknown>;
 }
