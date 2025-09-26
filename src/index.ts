@@ -87,20 +87,16 @@ export function processRequest(line: string) {
       case "tools/execute":
       case "tools/call": { // Fall-through to handle both legacy and current method names
         const params = request.params as ExecuteParams;
-        if (typeof params !== "object" || params === null || typeof params.name !== "string") {
-          sendError(request.id, -32602, "Invalid params: 'name' property is missing or not a string.");
-          return;
-        }
 
         const toolName = params.name;
-        const toolParams = params.parameters ?? {};
+        const toolParams = params.arguments ?? (params as any).arguments ?? {};
         const execution = executeTool(toolName, toolParams);
 
         if ("result" in execution) {
           sendResponse(request.id, { result: execution.result });
         } else {
           sendError(request.id, -32001, execution.error);
-        }
+        } 
         break;
       }
     }
