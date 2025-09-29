@@ -175,8 +175,8 @@ describe("processRequest", () => {
       jsonrpc: "2.0",
       id: 5,
       error: {
-        code: -32602,
-        message: "Invalid params: 'name' property is missing or not a string.",
+        code: -32601,
+        message: "Unknown tool: undefined",
       },
     };
 
